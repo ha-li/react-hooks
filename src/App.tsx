@@ -2,7 +2,12 @@ import './App.css';
 import { PersonScore } from './PersonScore';
 
 function App() {
-  return <PersonScore />
+  return (
+    <div className="card">
+      <PersonScore />
+    </div>
+    
+  );
 }
 
 export default App
