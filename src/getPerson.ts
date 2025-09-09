@@ -2,6 +2,11 @@ type Person = {
     name: string;
 };
 
+type ApiResponse = {
+    name: string;
+    [key: string]: any; // Allow other properties from the API
+};
+
 export async function getPerson(): Promise<Person> {
     try {
         const response = await fetch('https://swapi.info/api/people/1');
@@ -9,7 +14,7 @@ export async function getPerson(): Promise<Person> {
             throw new Error(`Http error! Status: ${response.status}`);
         }
 
-        const data: any = await response.json();
+        const data: ApiResponse = await response.json();
 
         if (!data.name || typeof data.name !== 'string') {
             throw new Error('Fetch data is missing');
