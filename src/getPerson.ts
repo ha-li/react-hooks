@@ -2,8 +2,22 @@ type Person = {
     name: string;
 };
 
-export function getPerson(): Promise<Person> {
-    return new Promise( (resolve) => 
-        setTimeout( () => resolve( { name: "Bob" }), 1000)
-    );
+export async function getPerson(): Promise<Person> {
+    try {
+        const response = await fetch('https://swapi.info/api/people/1');
+        if (!response.ok) {
+            throw new Error(`Http error! Status: ${response.status}`);
+        }
+
+        const data: any = await response.json();
+
+        if (!data.name || typeof data.name !== 'string') {
+            throw new Error('Fetch data is missing');
+        }
+
+        return { name: data.name };
+    } catch (error) {
+        console.error('failed to fetch person data:', error);
+        throw error;
+    }
 }
